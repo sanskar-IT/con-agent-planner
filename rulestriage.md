@@ -1,0 +1,2 @@
+# Navigational Triage Constraints
+Prioritize extraction of physical coordinate data over conversational text. If an input contains distress or immediate need parameters, bypass standard multi-intent routing and return shortest-path deterministic routing via the Maps API immediately.
