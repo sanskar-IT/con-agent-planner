@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "event": "Anime Expo",
+    "dates": "July 2-5, 2026",
+    "location": "LA Convention Center"
+  },
+  "schedule": {
+    "J-POP Sound Capsule concert": {"time": "TBD", "location": "TBD"},
+    "Sukeban pro-wrestling championship fight": {"time": "July 3, 2026", "location": "TBD"},
+    "Idol showcase": {"time": "TBD", "location": "TBD"},
+    "Maid café": {"time": "TBD", "location": "TBD"},
+    "Masquerade cosplay competition": {"time": "TBD", "location": "TBD"}
+  },
+  "booths": {}
+}
