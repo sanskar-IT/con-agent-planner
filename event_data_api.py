@@ -1,5 +1,6 @@
 import json
 from typing import Dict, Any, List, Optional
+import os
 
 # Mock database representing the deterministic Event Data
 EVENT_DB = {
@@ -19,46 +20,15 @@ EVENT_DB = {
             "Booth 202": {"x": 40, "y": 62},
             "Main Stage": {"x": 30, "y": 38}
         }
-    },
-    "schedule": {
-        "Main Stage Opening Ceremony": {
-            "time": "09:00 AM",
-            "location": "Main Stage",
-            "speaker": "Organizers"
-        },
-        "Genshin Impact Panel": {
-            "time": "11:00 AM",
-            "location": "Main Stage",
-            "speaker": "Dawei"
-        },
-        "Wuthering Waves Showcase": {
-            "time": "02:00 PM",
-            "location": "Stage B",
-            "speaker": "Kuro Games Devs"
-        },
-        "Anime Cosplay Contest": {
-            "time": "04:00 PM",
-            "location": "Main Stage",
-            "speaker": "Judges"
-        }
-    },
-    "booths": {
-        "Booth 101": {
-            "name": "HoYoverse",
-            "merch": {
-                "Genshin Impact Acrylic Standee": {"price": 15.00, "stock": 5},
-                "Honkai Star Rail Keychain": {"price": 8.00, "stock": 50}
-            }
-        },
-        "Booth 202": {
-            "name": "Kuro Games",
-            "merch": {
-                "Wuthering Waves Plushie": {"price": 30.00, "stock": 2},
-                "Wuthering Waves Poster": {"price": 10.00, "stock": 100}
-            }
-        }
     }
 }
+
+def load_ax_data():
+    try:
+        with open('ax_data.json', 'r') as f:
+            return json.load(f)
+    except Exception:
+        return {"schedule": {}, "booths": {}}
 
 class EventDataAPI:
     @staticmethod
@@ -79,30 +49,32 @@ class EventDataAPI:
 
     @staticmethod
     def get_schedule() -> Dict[str, Any]:
-        return EVENT_DB["schedule"]
+        return load_ax_data().get("schedule", {})
 
     @staticmethod
     def get_panel_info(panel_name: str) -> Optional[Dict[str, Any]]:
         # Match case-insensitively or via partial match
-        for key, val in EVENT_DB["schedule"].items():
+        schedule = EventDataAPI.get_schedule()
+        for key, val in schedule.items():
             if panel_name.lower() in key.lower():
                 return {"panel": key, **val}
         return None
 
     @staticmethod
     def get_booths() -> Dict[str, Any]:
-        return EVENT_DB["booths"]
+        return load_ax_data().get("booths", {})
 
     @staticmethod
     def get_booth_by_name(booth_name: str) -> Optional[Dict[str, Any]]:
-        for id, info in EVENT_DB["booths"].items():
-            if booth_name.lower() in info["name"].lower() or booth_name.lower() in id.lower():
+        booths = EventDataAPI.get_booths()
+        for id, info in booths.items():
+            if booth_name.lower() in info.get("name", "").lower() or booth_name.lower() in id.lower():
                 return {"booth_id": id, **info}
         return None
 
     @staticmethod
     def get_booth_merchandise(booth_id: str) -> Dict[str, Any]:
-        booth = EVENT_DB["booths"].get(booth_id)
+        booth = EventDataAPI.get_booths().get(booth_id)
         if booth:
             return booth.get("merch", {})
         return {}

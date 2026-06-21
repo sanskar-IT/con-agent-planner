@@ -1,8 +1,7 @@
 import typer
 import subprocess
 import sys
-from agent import ConventionPlannerAgent
-from session_service import DiscordSessionService
+import runner
 from rich.console import Console
 from rich.panel import Panel
 
@@ -11,7 +10,6 @@ if sys.platform.startswith("win"):
         sys.stdout.reconfigure(encoding="utf-8")
     except Exception:
         pass
-
 
 app = typer.Typer(help="Convention Planner ADK Root Agent CLI")
 console = Console()
@@ -24,10 +22,9 @@ def query(
     """
     Send a single query to the Convention Planner agent.
     """
-    agent = ConventionPlannerAgent()
     console.print(Panel(f"[bold cyan]Input:[/bold cyan] {text}\n[bold cyan]Session ID:[/bold cyan] {session_id}", title="Query Details"))
     
-    response = agent.process_message(session_id, text)
+    response = runner.run(session_id, text)
     
     console.print(Panel(response, title="Agent Response", border_style="green"))
 
@@ -38,7 +35,6 @@ def interactive(
     """
     Start an interactive chat session simulating a Discord channel.
     """
-    agent = ConventionPlannerAgent()
     console.print(Panel(
         f"Simulating Discord session for user [bold yellow]{session_id}[/bold yellow].\n"
         "Type your messages below. Type 'exit' or 'quit' to end.",
@@ -55,7 +51,7 @@ def interactive(
             if not message.strip():
                 continue
                 
-            response = agent.process_message(session_id, message)
+            response = runner.run(session_id, message)
             console.print(f"[bold blue]Agent:[/bold blue] {response}\n")
         except (KeyboardInterrupt, EOFError):
             console.print("\n[yellow]Session closed.[/yellow]")
