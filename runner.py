@@ -29,9 +29,10 @@ async def send_to_agent(session_id: str, text: str):
     runner = Runner(agent=root_agent, session_service=_session_service, app_name="convention_planner")
     
     response_content = ""
-    async for event in runner.run_async(user_id=session_id, session_id=session_id, new_message=new_message):
-        if event.type == "output":
-            response_content += event.data.text
+   async for event in runner.run_async(user_id=session_id, session_id=session_id, new_message=new_message):
+    if event.is_final_response():
+        if event.content and event.content.parts:
+            response_content += event.content.parts[0].text
     return response_content
 
 def run(session_id: str, text: str):
