@@ -63,7 +63,7 @@ def test():
     Run the automated evaluation test suite (pytest).
     """
     console.print("[bold cyan]Running evaluation test suite...[/bold cyan]")
-    result = subprocess.run([".venv\\Scripts\\pytest", "test_evals.py"], capture_output=False)
+     result = subprocess.run([sys.executable, "-m", "pytest", "test_evals.py"], capture_output=False)
     if result.returncode == 0:
         console.print("[bold green]All evaluations and guardrail tests passed successfully! (100% Override Precision)[/bold green]")
     else:
