@@ -1,17 +1,17 @@
-# Convention Planner ADK Root Agent
+# Jarvis Convention Assistant
 
-A Python-based AI agent system built on the **Google Agent Development Kit (ADK)**. It serves as the Root Routing Agent for anime and pop-culture conventions (e.g., Comic Con), handling attendee queries, managing budgets, and directing navigation.
+An intelligent, proactive, truth-first convention companion built on the **Google Agent Development Kit (ADK)**. Designed to plan convention days end-to-end, monitor real-time changes (schedule, weather, crowd, merch, etc.), and provide verified guidance to pop-culture and anime convention attendees.
 
 ---
 
 ## 🚀 Key Features & Guardrails
 
-- **Multi-Intent Routing**: Analyzes user queries and delegates tasks to specialized sub-agent skills (`triage-nav`, `schedule`, `booths`, `budget`).
-- **Emergency Triage Bypass**: Instantly overrides standard routing to output map coordinates for exits, hydration, or medical aid when distress is detected (per `rulestriage.md`).
-- **Hierarchy Enforcement**: Ensures that official deterministic data from the `Event Data API` systematically overrides semantic staging cache data from the `RAG Retriever` in all scenarios.
-- **Ingestion Filtering**: Whitelists structural event logistics while filtering out social media chatter that contains no operational variables.
-- **Zero-Hallucination Mandate**: Refuses to synthesize or approximate spatial coordinates or temporal events if they are missing from official sources.
-- **State Continuity**: Utilizes a memory-backed Discord session service to maintain budgets and interaction history across stateless requests.
+- **Jarvis-Like Proactive Multi-Agent Core**: Coordinates a Master Planner and 12 dedicated specialist agents (Emergency, Schedule, Budget, Maps, Merch, Social, Food, Weather, Crowd, Hotel, Memory, and Verification) to handle complex requests.
+- **Robust Convention State**: Tracks a rich state structure using `Pydantic` (`ConventionState`) detailing budgets, user itineraries, cosplay logistics, energy levels, food preferences, and trusted source records.
+- **Source Verification & Provenance Layer**: Restricts hallucination by assigning trust scores and source metadata to every piece of information.
+- **Strict Data Hierarchy**: Enforces a strict override chain (`EventDataAPI` > `Official Announcements` > `Official Social` > `Unofficial/Reddit`).
+- **Emergency Pre-flight Bypass**: Instantly diverts distress signals (e.g. panic, emergency, feeling faint) to the Emergency Agent, bypassing the Master Planner and LLM routing entirely for safety.
+- **Persistent Memory & State Continuity**: Preserves budgets, preferences, and itineraries across user sessions using a SQLite database backend.
 
 ---
 
@@ -19,46 +19,61 @@ A Python-based AI agent system built on the **Google Agent Development Kit (ADK)
 
 ```text
 con-planner-adk/
-├── .agents/
-│   └── skills/
-│       ├── triage-nav/
-│       │   └── SKILL.md       # Safety, emergency routing, and hydration instructions
-│       ├── schedule/
-│       │   └── SKILL.md       # Panel timing and stage assignment instructions
-│       ├── booths/
-│       │   └── SKILL.md       # Vendor merchandise and availability instructions
-│       └── budget/
-│           └── SKILL.md       # Budget tracking and constraint instructions
-├── event_data_api.py          # Official deterministic database mock
-├── rag_retriever.py           # Unstructured staging cache and ingestion whitelister
-├── session_service.py         # Discord-session memory manager
-├── agent.py                   # Main routing agent utilizing google-adk
-├── main.py                    # Typer command-line interface
-├── test_evals.py              # Pytest verification suite
-├── requirements.txt           # Python package requirements
-└── README.md                  # Project documentation (this file)
+├── agents/                       # Specialist Agents
+│   ├── __init__.py
+│   ├── master_planner.py         # Main coordination and itinerary engine
+│   ├── emergency_agent.py        # Triage and high-stress response (highest priority)
+│   ├── schedule_agent.py         # Panel scheduling, timing, and conflicts
+│   ├── budget_agent.py           # Purchase limits, alerts, and spending checks
+│   ├── maps_agent.py             # Booth & room coordinates, venue navigation
+│   ├── merch_agent.py            # Vendor lists, wishlist tracking, booth details
+│   ├── social_agent.py           # Labeled announcements and social media streams
+│   ├── food_agent.py             # Dietary limits, food/beverage recommendations
+│   ├── weather_agent.py          # Real-time and forecasted outdoor condition check
+│   ├── crowd_agent.py            # Line and room capacity/queue status
+│   ├── hotel_agent.py            # Lodging info, check-in logistics, and shuttle times
+│   ├── memory_agent.py           # User energy level tracker & custom preferences
+│   └── verification_agent.py     # Source validation and provenance tagging
+├── retrieval/                    # Data Ingestion and Mock APIs
+│   ├── __init__.py
+│   ├── event_data_api.py         # Official deterministic mock database API
+│   └── rag_retriever.py          # Semantic staging cache and ingestion whitelist filter
+├── state/                        # Application State Models
+│   ├── __init__.py
+│   └── convention_state.py       # Pydantic ConventionState & sub-models
+├── verification/                 # Verification Engine
+│   ├── __init__.py
+│   └── source_verifier.py        # Implements SourceTrust tiers, override validation, and tagging
+├── agent.py                      # Main entrypoint exposing ConventionPlannerAgent
+├── runner.py                     # Execution wrapper with pre-flight bypass logic
+├── session_service.py            # SQLite session memory manager
+├── main.py                       # Command line interface
+├── requirements.txt              # Dependencies
+├── test_evals.py                 # Comprehensive pytest verification suite
+├── ax_data.json                  # Local mock database for AX 2026
+└── README.md                     # This file
 ```
 
 ---
 
 ## 🛠️ Setup & Installation
 
-1. **Clone the Repository** (or navigate to the project directory):
+1. **Navigate to Project Directory**:
    ```bash
    cd con-planner-adk
    ```
 
-2. **Create a Virtual Environment**:
+2. **Set Up a Virtual Environment**:
    ```bash
    python -m venv .venv
    ```
 
 3. **Activate the Environment**:
-   - **Windows (PowerShell)**:
+   * **Windows (PowerShell)**:
      ```powershell
      .venv\Scripts\Activate.ps1
      ```
-   - **macOS / Linux**:
+   * **macOS / Linux**:
      ```bash
      source .venv/bin/activate
      ```
@@ -70,39 +85,47 @@ con-planner-adk/
 
 ---
 
-## 💻 Running the Agent
+## 💻 Running the Assistant
 
-The CLI is powered by Typer and automatically configures standard output encoding for emoji rendering.
+The CLI supports interactive querying, single prompts, planning, status tracking, and running tests.
 
-### 1. Run a Single Query
-Send a single message to the agent using the default session:
+### 1. Single Query Mode
+Send a single query to Jarvis:
 ```bash
-python main.py query "Where is the HoYoverse booth and when is the Genshin Impact panel?"
+python main.py query "I have $200. Is the Cyberpunk panel at 3pm, and can I afford the $150 jacket?"
 ```
 
-### 2. Run Interactive Discord Chat Simulation
-Simulate a stateless Discord channel. The session service will track your context:
+### 2. Interactive Mode
+Start a continuous session tracking your preferences and choices in real-time:
 ```bash
-python main.py interactive
+python main.py interactive --session-id MyConTrip
 ```
 
-### 3. Run Verification Tests
-Verify all evaluation criteria (Synthesis, Override Precision, Triage Bypass, State Continuity) pass:
+### 3. Retrieve Current State
+View the convention state saved for a specific session ID:
 ```bash
-python main.py test
+python main.py status --session-id MyConTrip
+```
+
+### 4. Show Today's Plan
+Print the official event schedule and metadata:
+```bash
+python main.py plan
 ```
 
 ---
 
-## 🧪 Evaluation Test Suite
+## 🧪 Verification & Evaluations
 
-Run unit tests directly with Pytest to verify the system guardrails:
+Run the comprehensive pytest suite verifying safety bypasses, source provenance, override checks, and cross-agent coordination:
 ```bash
-pytest test_evals.py
+python main.py test
 ```
+*(Alternatively, run `pytest test_evals.py -v` directly).*
 
-It validates:
-- **Synthesis Check**: Verifies that queries seeking location, schedules, and budgets are correctly answered.
-- **Override Precision**: Confirms Event Data overrides outdated RAG rumors (100% precision).
-- **State Continuity**: Checks if the agent recalls budget bounds from prior interaction cycles.
-- **Emergency Bypass**: Tests if distress signals instantly return map coordinates.
+The suite includes 13 test scenarios validating:
+- **Synthesis check**: Merging panel schedules, budgets, and location tracking.
+- **Override precision**: Ensuring API truths correctly override semantic RAG cache rumors.
+- **Emergency bypass**: Fast-tracking distress alerts directly to coordinates without LLM latency.
+- **State continuity**: Validating budget, energy levels, and preference persistence.
+- **Advanced domains**: Verifying food requirements, merch updates, queue status, and weather alerts.
