@@ -4,12 +4,58 @@
     "dates": "July 2-5, 2026",
     "location": "LA Convention Center"
   },
-  "schedule": {
-    "J-POP Sound Capsule concert": {"time": "TBD", "location": "TBD"},
-    "Sukeban pro-wrestling championship fight": {"time": "July 3, 2026", "location": "TBD"},
-    "Idol showcase": {"time": "TBD", "location": "TBD"},
-    "Maid café": {"time": "TBD", "location": "TBD"},
-    "Masquerade cosplay competition": {"time": "TBD", "location": "TBD"}
+  "official_sources": {
+    "website": "https://www.anime-expo.org",
+    "twitter": "@AnimeExpo",
+    "instagram": "@animeexpo",
+    "discord": "Anime Expo Official Discord"
   },
-  "booths": {}
+  "schedule": {
+    "Genshin Impact Panel": {"time": "11:00 AM", "location": "Main Stage"},
+    "Wuthering Waves Showcase": {"time": "02:00 PM", "location": "Stage B"},
+    "J-POP Sound Capsule concert": {"time": "06:00 PM", "location": "Main Stage"},
+    "Sukeban pro-wrestling championship fight": {"time": "03:00 PM July 3, 2026", "location": "Hall B"},
+    "Idol showcase": {"time": "10:00 AM", "location": "Stage C"},
+    "Maid café": {"time": "All Day", "location": "Hall D Booth Area"},
+    "Masquerade cosplay competition": {"time": "07:00 PM", "location": "Main Stage"}
+  },
+  "booths": {
+    "Booth 101": {
+      "name": "HoYoverse Official",
+      "merch": {
+        "Genshin Impact Acrylic Standee": 25.00,
+        "Honkai Star Rail Poster Set": 15.00,
+        "Wuthering Waves Keychain": 10.00
+      }
+    },
+    "Booth 202": {
+      "name": "Aniplex of America",
+      "merch": {
+        "Demon Slayer Figure": 45.00,
+        "Sword Art Online Art Book": 30.00
+      }
+    },
+    "Booth 305": {
+      "name": "Crunchyroll Store",
+      "merch": {
+        "Jujutsu Kaisen T-Shirt": 28.00,
+        "My Hero Academia Pin Set": 12.00,
+        "Spy x Family Tote Bag": 20.00
+      }
+    },
+    "Booth 410": {
+      "name": "Bandai Namco",
+      "merch": {
+        "Gundam Model Kit (HG)": 35.00,
+        "Dragon Ball Card Pack": 8.00
+      }
+    },
+    "Booth 515": {
+      "name": "Artist Alley Collective",
+      "merch": {
+        "Custom Anime Prints": 15.00,
+        "Handmade Enamel Pins": 10.00
+      }
+    }
+  }
 }
