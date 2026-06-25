@@ -113,7 +113,7 @@ If you saw `sub_agents=[]` in any script, it was an artifact of an outdated draf
     ```python
     master_planner = Agent(
         name="jarvis_convention_assistant",
-        model="gemini-2.0-flash",
+        model="gemini-3.5-flash",
         instruction=MASTER_PLANNER_INSTRUCTION,
         sub_agents=[
             emergency_agent,
