@@ -7,7 +7,7 @@ purchases within the user's remaining budget.
 """
 
 from google.adk import Agent
-from retrieval.event_data_api import EventDataAPI
+from event_data_api import EventDataAPI
 
 
 # ── tool functions ──────────────────────────────────────────────────────

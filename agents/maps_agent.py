@@ -7,7 +7,7 @@ directions; if a location is missing from the map data it says so.
 """
 
 from google.adk import Agent
-from retrieval.event_data_api import EventDataAPI
+from event_data_api import EventDataAPI
 
 
 # ── tool functions ──────────────────────────────────────────────────────

@@ -82,7 +82,7 @@ def plan(
     """
     Show today's recommended convention itinerary.
     """
-    from retrieval.event_data_api import EventDataAPI
+    from event_data_api import EventDataAPI
 
     console.print(Panel("📋 Generating today's plan...", title="Jarvis Planner", border_style="cyan"))
 

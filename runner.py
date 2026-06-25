@@ -35,6 +35,7 @@ async def send_to_agent(session_id: str, text: str) -> str:
         agent=root_agent,
         session_service=_session_service,
         app_name="jarvis_convention_assistant",
+        auto_create_session=True,
     )
 
     response_content = ""

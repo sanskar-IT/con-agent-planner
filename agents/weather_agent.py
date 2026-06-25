@@ -8,7 +8,7 @@ so the message is at least context-aware.
 """
 
 from google.adk import Agent
-from retrieval.event_data_api import EventDataAPI
+from event_data_api import EventDataAPI
 
 
 # ── Tool functions ───────────────────────────────────────────────────────────

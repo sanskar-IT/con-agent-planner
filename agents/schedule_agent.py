@@ -6,7 +6,7 @@ or guesses times/locations; if data is TBD, it says so explicitly.
 """
 
 from google.adk import Agent
-from retrieval.event_data_api import EventDataAPI
+from event_data_api import EventDataAPI
 
 
 # ── tool functions ──────────────────────────────────────────────────────

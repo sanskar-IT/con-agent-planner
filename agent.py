@@ -14,8 +14,8 @@ from typing import Dict, Any, Optional
 
 from agents.master_planner import master_planner as root_agent
 from agents.emergency_agent import check_emergency
-from retrieval.event_data_api import EventDataAPI
-from retrieval.rag_retriever import RAGRetriever
+from event_data_api import EventDataAPI
+from rag_retriever import RAGRetriever
 from session_service import ConventionSessionService
 
 

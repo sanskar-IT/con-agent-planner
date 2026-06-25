@@ -7,7 +7,7 @@ so the user can gauge reliability.
 """
 
 from google.adk import Agent
-from retrieval.rag_retriever import RAGRetriever
+from rag_retriever import RAGRetriever
 
 
 # ── tool functions ──────────────────────────────────────────────────────

@@ -10,7 +10,7 @@ information.
 from typing import Dict
 
 from google.adk import Agent
-from retrieval.event_data_api import EventDataAPI
+from event_data_api import EventDataAPI
 
 
 # ── In-memory preference store (per-session) ─────────────────────────────────

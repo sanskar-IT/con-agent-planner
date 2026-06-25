@@ -8,7 +8,7 @@ consumers can pattern-match on it.
 """
 
 from google.adk import Agent
-from retrieval.event_data_api import EventDataAPI
+from event_data_api import EventDataAPI
 
 
 # ── keyword list (order does not matter) ────────────────────────────────

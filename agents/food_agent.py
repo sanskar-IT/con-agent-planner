@@ -10,7 +10,7 @@ if no official data exists the agent tells the user to check in person.
 from typing import List
 
 from google.adk import Agent
-from retrieval.event_data_api import EventDataAPI
+from event_data_api import EventDataAPI
 
 
 # ── Tool functions ───────────────────────────────────────────────────────────
