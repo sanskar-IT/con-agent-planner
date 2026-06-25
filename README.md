@@ -1,6 +1,6 @@
 # 🤖 Jarvis Convention Assistant
 
-An intelligent, proactive, truth-first anime and pop-culture convention companion built on the **Google Agent Development Kit (ADK)** and powered by **Gemini 2.0 Flash**. 
+An intelligent, proactive, truth-first anime and pop-culture convention companion built on the **Google Agent Development Kit (ADK)** and powered by **Gemini 3.5 Flash**. 
 
 Designed to help attendees navigate crowded convention halls, plan itineraries, manage budgets, monitor real-time social media updates, and handle physical safety/emergencies deterministically.
 
